@@ -1,5 +1,6 @@
 import turtle
 import time
+import random
 # screen settings
 wn = turtle.Screen()
 wn.bgcolor('green')
@@ -16,6 +17,14 @@ head.shape('square')
 head.penup()
 head.goto(0,0)
 head.direction = 'stop'
+
+# snake food settings
+food = turtle.Turtle()
+food.speed(0)
+food.color('red')
+food.shape('circle')
+food.penup()
+food.goto(random.randint(-240,240),random.randint(-240,240))
 
 # movevements direction setting function
 def go_up():
@@ -50,4 +59,6 @@ while True:
     wn.update()
     time.sleep(delay)
     move()
+    if head.distance(food) < 20:
+        food.goto(random.randint(-240,+240),random.randint(-240,+240))
 wn.mainloop()
