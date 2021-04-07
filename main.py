@@ -59,6 +59,15 @@ while True:
     wn.update()
     time.sleep(delay)
     move()
+    if head.xcor() > 240:
+        head.goto(-head.xcor(),head.ycor())
+    elif head.xcor() < -240:
+        head.goto(-head.xcor(),head.ycor())
+    if head.ycor() > 240:
+        head.goto(head.xcor(),-head.ycor())
+    elif head.ycor() < -240:
+        head.goto(head.xcor(),-head.ycor())
+
     if head.distance(food) < 20:
         food.goto(random.randint(-240,+240),random.randint(-240,+240))
 wn.mainloop()
