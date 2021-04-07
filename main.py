@@ -8,7 +8,7 @@ wn.title('Snake game by Viswath')
 wn.setup(width=500, height=500)
 wn.tracer(0)
 delay = 0.1
-
+body = []
 # snake head settings
 head = turtle.Turtle()
 head.speed(0)
@@ -57,8 +57,8 @@ def move():
 # game main loop
 while True:
     wn.update()
-    time.sleep(delay)
-    move()
+  
+    # snake boder movements
     if head.xcor() > 240:
         head.goto(-head.xcor(),head.ycor())
     elif head.xcor() < -240:
@@ -67,7 +67,26 @@ while True:
         head.goto(head.xcor(),-head.ycor())
     elif head.ycor() < -240:
         head.goto(head.xcor(),-head.ycor())
-
+# snake and food collision
     if head.distance(food) < 20:
         food.goto(random.randint(-240,+240),random.randint(-240,+240))
+        body_part = turtle.Turtle()
+        body_part.speed(0)
+        body_part.color('grey')
+        body_part.shape('square')
+        body_part.penup()
+        body.append(body_part)
+        # moving body parts along head
+    for index in range(len(body)-1,0,-1):
+         x = body[index-1].xcor()
+         y = body[index-1].ycor()
+         body[index].goto(x,y)
+
+    if len(body) > 0:
+         x = head.xcor()
+         y = head.ycor()
+         body[0].goto(x,y)
+    
+    time.sleep(delay)
+    move()
 wn.mainloop()
