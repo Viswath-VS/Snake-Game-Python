@@ -8,7 +8,9 @@ wn.title('Snake game by Viswath')
 wn.setup(width=500, height=500)
 wn.tracer(0)
 delay = 0.1
-body = []
+bodys = []
+score = 0
+high_score = 0
 # snake head settings
 head = turtle.Turtle()
 head.speed(0)
@@ -26,15 +28,28 @@ food.shape('circle')
 food.penup()
 food.goto(random.randint(-240,240),random.randint(-240,240))
 
+# score settings
+pen = turtle.Turtle()
+pen.speed(0)
+pen.penup()
+pen.color('white')
+pen.hideturtle()
+pen.goto(0,200)
+pen.write("Score: 0  Highscore: 0",align='center',font=('Courier',24,'normal'))
+
 # movevements direction setting function
 def go_up():
-    head.direction = 'up'
+    if head.direction != 'down':
+        head.direction = 'up'
 def go_down():
-    head.direction = 'down'
+     if head.direction != 'up':
+        head.direction = 'down'
 def go_left():
-    head.direction = 'left'
+    if head.direction != 'right':
+        head.direction = 'left'
 def go_right():
-    head.direction = 'right'
+    if head.direction != 'left':
+        head.direction = 'right'
 
 # keyboard bindings
 wn.listen()
@@ -75,18 +90,39 @@ while True:
         body_part.color('grey')
         body_part.shape('square')
         body_part.penup()
-        body.append(body_part)
-        # moving body parts along head
-    for index in range(len(body)-1,0,-1):
-         x = body[index-1].xcor()
-         y = body[index-1].ycor()
-         body[index].goto(x,y)
+        bodys.append(body_part)
+        score += 10
+        if score > high_score:
+            high_score = score
+        pen.clear()
+        pen.write("Score: {}  Highscore: {}".format(score,high_score),align='center',font=('Courier',24,'normal'))
+# moving body parts along head
+    for index in range(len(bodys)-1,0,-1):
+         x = bodys[index-1].xcor()
+         y = bodys[index-1].ycor()
+         bodys[index].goto(x,y)
 
-    if len(body) > 0:
+    if len(bodys) > 0:
          x = head.xcor()
          y = head.ycor()
-         body[0].goto(x,y)
+         bodys[0].goto(x,y)
     
     time.sleep(delay)
     move()
+# checking for head and body collision
+    for body in bodys:
+        if body.distance(head) < 20:
+            time.sleep(1)
+            head.goto(0,0)
+            head.direction = "stop"
+            score=0
+            pen.clear()
+            pen.write("Score: {}  Highscore: {}".format(score,high_score),align='center',font=('Courier',24,'normal'))
+# clearing the body parts after collision
+            for body in bodys:
+                body.goto(2000,2000)
+            bodys.clear()
+
+
+
 wn.mainloop()
