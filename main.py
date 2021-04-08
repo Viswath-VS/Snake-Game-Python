@@ -1,16 +1,20 @@
 import turtle
 import time
 import random
+
+# variables
+delay = 0.1
+bodys = []
+score = 0
+high_score = 0
+
 # screen settings
 wn = turtle.Screen()
 wn.bgcolor('green')
 wn.title('Snake game by Viswath')
 wn.setup(width=500, height=500)
 wn.tracer(0)
-delay = 0.1
-bodys = []
-score = 0
-high_score = 0
+
 # snake head settings
 head = turtle.Turtle()
 head.speed(0)
